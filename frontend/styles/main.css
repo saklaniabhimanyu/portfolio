@@ -1,0 +1,1289 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+/* ============================= TOKENS ============================= */
+:root {
+  --bg: #FAFAF9;
+  --surface: #F1F0EB;
+  --ink: #111214;
+  --muted: #62666F;
+  --hairline: #E1DFDA;
+  --accent: #2F4CFF;
+  --accent-soft: rgba(47, 76, 255, 0.08);
+
+  --font-display: 'Space Grotesk', -apple-system, sans-serif;
+  --font-body: 'Inter', -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  --container: 1440px;
+}
+
+/* ============================= RESET ============================= */
+html, body, [class*="css"] {
+  font-family: var(--font-body);
+  color: var(--ink);
+}
+
+/* Force the light design regardless of OS/browser dark-mode preference —
+   Streamlit's own theme vars are set in .streamlit/config.toml, but these
+   backstop every container Streamlit renders around our markdown. */
+html, body,
+.stApp,
+[data-testid="stAppViewContainer"],
+[data-testid="stAppViewBlockContainer"],
+[data-testid="stMain"],
+[data-testid="stMainBlockContainer"],
+section.main {
+  background: var(--bg) !important;
+  color: var(--ink) !important;
+}
+
+#MainMenu,
+footer {
+  visibility: hidden;
+  height: 0;
+}
+
+/* ============================= STREAMLIT HEADER ============================= */
+/* Deploy button / dev menu are now hidden via toolbarMode="viewer" in
+   .streamlit/config.toml -- that's Streamlit's own supported setting for
+   this, and unlike CSS testid selectors it doesn't break when Streamlit
+   renames the underlying element across versions (which is exactly what
+   happened here: .stDeployButton was replaced by a different element in
+   1.38+). The header itself stays visible (just transparent) purely so
+   its native sidebar open/close control keeps working. */
+
+header[data-testid="stHeader"] {
+  background: transparent !important;
+  z-index: 9999 !important;
+}
+
+div[data-testid="stDecoration"] {
+  display: none !important;
+}
+
+/* Defensive: force the sidebar's native open/close control visible and
+   clickable regardless of which testid this Streamlit version uses for it
+   (it has changed across releases -- collapsedControl in older ones,
+   stSidebarCollapseButton in newer ones). Nothing else in this file should
+   target these, but this guards against any rule anywhere accidentally
+   catching it. */
+[data-testid="collapsedControl"],
+[data-testid="stSidebarCollapseButton"],
+[data-testid="stSidebarCollapsedControl"] {
+  visibility: visible !important;
+  display: flex !important;
+  opacity: 1 !important;
+  z-index: 999999 !important;
+}
+
+.block-container {
+  padding-top: 1.5rem !important;
+  padding-bottom: 0 !important;
+  max-width: 100% !important;
+}
+
+html { scroll-behavior: smooth; }
+
+::selection { background: var(--accent-soft); color: var(--accent); }
+
+a { color: inherit; text-decoration: none; }
+
+* { box-sizing: border-box; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { animation: none !important; transition: none !important; }
+}
+
+/* Streamlit puts its own default gap between every top-level element --
+   each separate st.markdown/st.columns/st.button call becomes its own
+   block with this gap applied. That's invisible with one or two elements,
+   but compounds fast anywhere a section makes several separate calls (the
+   worst offender: Achievements, one call per certificate) -- the more
+   items, the more extra space, independent of any of our own CSS padding.
+   Tightened globally rather than chasing each spot individually. */
+div[data-testid="stVerticalBlock"] {
+  gap: 0.35rem !important;
+}
+
+/* ============================= MOTION ============================= */
+@keyframes pf-fade-up {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pf-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes pf-blob-drift {
+  0%   { transform: translate(0, 0) scale(1); }
+  33%  { transform: translate(3%, -4%) scale(1.05); }
+  66%  { transform: translate(-3%, 3%) scale(0.97); }
+  100% { transform: translate(0, 0) scale(1); }
+}
+
+@keyframes pf-pulse-dot {
+  0%, 100% { box-shadow: 0 0 0 0 var(--accent-soft); }
+  50% { box-shadow: 0 0 0 6px transparent; }
+}
+
+.pf-fade-up { animation: pf-fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.pf-fade-up-d1 { animation-delay: 0.08s; }
+.pf-fade-up-d2 { animation-delay: 0.16s; }
+.pf-fade-up-d3 { animation-delay: 0.24s; }
+
+/* Scroll-reveal: elements fade + rise into place as they cross into the
+   viewport. Uses the CSS scroll-driven-animations spec (animation-timeline:
+   view()) -- no JavaScript, no IntersectionObserver, nothing to break
+   across Streamlit versions. Purely a progressive enhancement: browsers
+   that don't yet support it (Safari, older Firefox) simply show the
+   element at full opacity immediately, so nothing is ever hidden or
+   broken -- it just doesn't animate there. */
+.pf-reveal {
+  opacity: 1;
+}
+
+@supports (animation-timeline: view()) {
+  .pf-reveal {
+    opacity: 0;
+    animation: pf-fade-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-timeline: view();
+    animation-range: entry 0% cover 25%;
+  }
+}
+
+/* Glassmorphism utility -- translucent, blurred panels for cards that
+   should feel like they're floating above the page rather than flat on
+   it. Used sparingly (info panel, resume CTA) to keep the "less, but
+   better" character rather than turning the whole site frosted. */
+.pf-glass {
+  background: rgba(241, 240, 235, 0.65);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.pf-glass-dark {
+  background: rgba(17, 18, 20, 0.72);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* ============================= LAYOUT SHELL ============================= */
+.pf-wrap {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+/* Streamlit's own st.columns() rows (data-testid stHorizontalBlock) span
+   the full main content width by default -- unlike everything else on the
+   site, which goes through .pf-wrap above. Constraining max-width here
+   keeps top-level native-widget rows (hero's photo/ask-box column,
+   button pairs in Achievements/Resume/case studies) visually consistent
+   with the rest of the page instead of stretching edge to edge. No
+   padding here (unlike .pf-wrap) because these rows can nest -- e.g. the
+   ask-box's own input+button row sits inside hero's right column -- and
+   padding would double up on the inner one; max-width/auto-margin are
+   harmless on nested rows since they're already narrower than the cap. */
+div[data-testid="stHorizontalBlock"] {
+  max-width: var(--container);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.pf-section {
+  padding: 120px 0;
+  border-bottom: 1px solid var(--hairline);
+}
+
+.pf-section:last-of-type { border-bottom: none; }
+
+/* Used instead of .pf-section when a section is rendered as the only
+   content on a standalone page (via the sidebar/top-nav "?section=..."
+   links), not as one of several sections on the continuous home-page
+   scroll. The full 120px top padding exists to separate consecutive
+   sections there; on a standalone page it just stacks redundantly on
+   top of the back-link's own spacing above it, with nothing to separate
+   from below. */
+.pf-section-standalone {
+  padding: 8px 0 120px;
+  border-bottom: none;
+}
+
+@media (max-width: 720px) {
+  .pf-section { padding: 72px 0; }
+  .pf-wrap { padding: 0 20px; }
+}
+
+/* ============================= EYEBROW / LABELS ============================= */
+.pf-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.pf-eyebrow .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  display: inline-block;
+  animation: pf-pulse-dot 2.4s ease-in-out infinite;
+}
+
+.pf-section-num {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--muted);
+  letter-spacing: 0.05em;
+}
+
+/* ============================= SIDEBAR ============================= */
+section[data-testid="stSidebar"] {
+  background: var(--ink) !important;
+  border-right: 1px solid rgba(255,255,255,0.06) !important;
+}
+
+section[data-testid="stSidebar"] > div {
+  background: var(--ink) !important;
+}
+
+.pf-sidebar-photo {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid rgba(255,255,255,0.15);
+  margin-bottom: 16px;
+}
+
+.pf-sidebar-name {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 17px;
+  color: var(--bg);
+  letter-spacing: -0.01em;
+  margin-bottom: 2px;
+}
+
+.pf-sidebar-role {
+  font-size: 12.5px;
+  color: rgba(250,250,249,0.55);
+  margin-bottom: 28px;
+  line-height: 1.4;
+}
+
+.pf-sidebar-nav { display: flex; flex-direction: column; gap: 2px; margin-bottom: 28px; }
+
+.pf-sidebar-nav a {
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(250,250,249,0.65);
+  padding: 9px 12px;
+  border-radius: 8px;
+  transition: all 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+  display: block;
+  position: relative;
+  border-left: 2px solid transparent;
+}
+
+.pf-sidebar-nav a:hover {
+  color: var(--bg);
+  background: rgba(255,255,255,0.07);
+  border-left-color: var(--accent);
+  padding-left: 16px;
+}
+
+.pf-sidebar-divider {
+  border: none;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  margin: 20px 0;
+}
+
+.pf-sidebar-label {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(250,250,249,0.4);
+  margin-bottom: 12px;
+}
+
+.pf-sidebar-contact { display: flex; flex-direction: column; gap: 8px; }
+
+.pf-sidebar-contact a {
+  font-size: 13px;
+  color: rgba(250,250,249,0.75);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 0;
+}
+.pf-sidebar-contact a:hover { color: var(--bg); }
+
+.pf-sidebar-resume-btn {
+  display: block;
+  text-align: center;
+  margin-top: 18px;
+  background: var(--accent);
+  color: var(--bg) !important;
+  font-weight: 600;
+  font-size: 13px;
+  padding: 11px;
+  border-radius: 10px;
+  transition: all 0.15s ease;
+}
+.pf-sidebar-resume-btn:hover { background: #4863ff; transform: translateY(-1px); }
+
+/* ============================= TOP NAV ============================= */
+
+.pf-top-nav {
+  width: 100% !important;
+  height: 48px !important;
+
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+
+  padding: 0 48px !important;
+
+  background: var(--bg) !important;
+  border-bottom: 1px solid var(--hairline) !important;
+
+  position: relative !important;
+  z-index: 100 !important;
+}
+
+.pf-top-nav-left {
+  display: flex !important;
+  align-items: center !important;
+  gap: 30px !important;
+}
+
+.pf-top-nav a {
+  display: inline-block !important;
+  font-family: var(--font-body) !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  color: var(--muted) !important;
+  text-decoration: none !important;
+  cursor: pointer !important;
+}
+
+.pf-top-nav a:hover {
+  color: var(--ink) !important;
+}
+
+
+/* Mobile top bar (shown only under the breakpoint, sidebar collapses natively) */
+.pf-mobile-topbar {
+  display: none;
+  position: sticky;
+  top: 0;
+  z-index: 998;
+  background: rgba(250, 250, 249, 0.9);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--hairline);
+  padding: 14px 20px;
+  font-family: var(--font-display);
+  font-weight: 600;
+}
+
+@media (max-width: 720px) {
+  .pf-mobile-topbar { display: block; }
+}
+
+/* ============================= HERO ============================= */
+.pf-hero {
+  padding: 0 !important;
+  margin-top: 56px !important;
+  position: relative;
+  overflow: visible;
+}
+
+/* Two soft, slowly-drifting gradient blobs behind the hero content --
+   pure CSS (no canvas/JS/particle library), kept subtle and blurred so it
+   reads as ambient atmosphere rather than a distraction. Positioned
+   behind everything via z-index and excluded from the layout via
+   position:absolute so it never affects spacing. */
+.pf-hero::before,
+.pf-hero::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  border-radius: 50%;
+  filter: blur(70px);
+  opacity: 0.35;
+  pointer-events: none;
+  animation: pf-blob-drift 18s ease-in-out infinite;
+}
+
+.pf-hero::before {
+  width: 420px;
+  height: 420px;
+  top: -120px;
+  right: 8%;
+  background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
+}
+
+.pf-hero::after {
+  width: 320px;
+  height: 320px;
+  top: 60px;
+  left: 2%;
+  background: radial-gradient(circle, #7C6CFF 0%, transparent 70%);
+  animation-delay: -9s;
+  animation-duration: 22s;
+}
+
+@media (max-width: 900px) {
+  .pf-hero::before, .pf-hero::after { opacity: 0.2; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-hero::before, .pf-hero::after { animation: none; }
+}
+
+.pf-hero > div[data-testid="stHorizontalBlock"] {
+  max-width: var(--container);
+  margin: 0 auto !important;
+  padding-top: 0 !important;
+}
+
+.pf-hero > div[data-testid="stHorizontalBlock"] > div {
+  min-width: 0;
+}
+
+.pf-brand-icon {
+  vertical-align: -2.5px;
+  margin-right: 6px;
+  opacity: 0.75;
+  transition: opacity 0.2s ease;
+}
+
+a:hover > .pf-brand-icon { opacity: 1; }
+
+.pf-inline-link {
+  color: var(--accent);
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.15s ease;
+}
+.pf-inline-link:hover { border-bottom-color: var(--accent); }
+
+.pf-hero-photo-col {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.pf-hero-photo-col img,
+.pf-hero-photo-col > div {
+  width: 100%;
+  max-width: 300px;
+  aspect-ratio: 1 / 1;
+}
+
+@media (max-width: 900px) {
+  .pf-hero-photo-col img,
+  .pf-hero-photo-col > div {
+    max-width: 200px;
+  }
+}
+
+/* "Ask about myself" widget -- an immediate sibling of the photo inside
+   the same Streamlit column (see hero.py), so it lands right below it
+   with only Streamlit's own small inter-element gap in between, not a
+   whole separate section further down the page.
+   Targeted unscoped since this is the only st.text_input / st.form in the
+   whole app (no st.container(key=...) dependency -- that API isn't
+   available on all Streamlit versions, and crashed on an older install). */
+div[data-testid="stForm"] {
+  border: none !important;
+  padding: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 auto;
+}
+div[data-testid="InputInstructions"],
+[data-testid="stInputInstructions"] {
+  display: none !important;
+}
+
+.pf-ask-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: none;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  text-align: center;
+  max-width: 100%;
+  margin: 5px auto 15px;
+}
+
+
+.stTextInput,
+.stTextInput > div,
+.stTextInput input {
+  width: 100% !important;
+}
+
+.stTextInput input {
+  background: #FFFFFF !important;
+  color: var(--ink) !important;
+  border: 1px solid #DADCE0 !important;
+  border-radius: 999px !important;
+  padding: 16px 22px !important;
+  font-size: 14px !important;
+  min-height: 56px !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+  transition: all 0.2s ease !important;
+}
+.stTextInput input::placeholder {
+  color: #5F6368 !important; 
+}
+.stTextInput input:focus {
+  border-color: #DADCE0 !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12) !important;
+  outline: none !important;
+}
+
+/* The arrow button next to the input, Google-search-bar style */
+div[data-testid="stForm"] .stFormSubmitButton button {
+  padding: 12px 0 !important;
+  font-size: 15px !important;
+}
+
+.pf-ask-answer {
+  margin-top: 6px;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 20px 22px;
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: 16px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--ink);
+}
+
+.pf-hero-name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(58px, 5.2vw, 98px) !important;
+  line-height: 0.92 !important;
+  letter-spacing: -0.04em;
+
+  margin: 0 0 6px !important;
+  padding: 0 !important;
+
+  white-space: nowrap;
+}
+
+.pf-hero-name + .pf-hero-role {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+.pf-hero-role {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(16px, 2.2vw, 22px);
+
+  line-height: 1.2 !important;
+  color: var(--muted);
+
+  margin: 0 0 18px !important;
+  padding: 0 !important;
+}
+
+@media (max-width: 900px) {
+  .pf-hero-name { white-space: normal; }
+}
+
+
+.pf-hero-summary {
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--ink);
+  max-width: 640px;
+  margin-top: 0 !important;
+  margin-bottom: 22px;
+}
+
+.pf-hero-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 20px; }
+
+.pf-hero-contact-row {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 48px;
+}
+
+.pf-contact-row {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+
+.pf-contact-row-primary {
+  margin-bottom: 8px !important;
+}
+
+.pf-contact-row-secondary {
+  margin-bottom: 18px !important;
+}
+
+.pf-contact-pill {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--muted);
+  padding: 8px 16px;
+  border: 1px solid var(--hairline);
+  border-radius: 999px;
+  display: inline-flex !important;
+  width: fit-content !important;
+  flex: 0 0 auto !important;
+  align-items: center;
+  transition: all 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.pf-contact-pill:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-soft);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(47, 76, 255, 0.15);
+}
+
+.pf-target-roles-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+
+.pf-target-roles-row { display: flex; flex-wrap: wrap; gap: 10px; }
+
+.pf-role-chip {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 13.5px;
+  padding: 9px 18px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  transition: all 0.2s ease;
+}
+.pf-role-chip:hover { background: var(--accent); color: var(--bg); transform: translateY(-2px); }
+
+/* ============================= BUTTONS ============================= */
+.pf-btn {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 14px;
+  padding: 14px 26px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+  border: 1px solid transparent;
+  cursor: pointer;
+}
+
+.pf-btn:active { transform: scale(0.96); }
+
+.pf-btn-primary {
+  background: var(--ink);
+  color: var(--bg);
+}
+.pf-btn-primary:hover { background: var(--accent); transform: translateY(-1px); box-shadow: 0 8px 20px rgba(47, 76, 255, 0.25); }
+
+.pf-btn-secondary {
+  background: transparent;
+  color: var(--ink);
+  border-color: var(--hairline);
+}
+.pf-btn-secondary:hover { border-color: var(--ink); transform: translateY(-1px); }
+
+.pf-btn-small {
+  padding: 10px 18px;
+  font-size: 13px;
+}
+
+/* ============================= ABOUT ============================= */
+.pf-about-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 64px;
+  margin-top: 40px;
+}
+
+.pf-about-copy p {
+  font-size: 17px;
+  line-height: 1.75;
+  color: var(--ink);
+  margin: 0 0 22px;
+}
+
+.pf-info-panel {
+  background: rgba(241, 240, 235, 0.65);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 20px;
+  padding: 32px;
+  height: fit-content;
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease;
+}
+
+.pf-info-panel:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 20px 48px rgba(17, 18, 20, 0.08);
+}
+
+.pf-info-row {
+  padding: 16px 0;
+  border-bottom: 1px solid var(--hairline);
+}
+.pf-info-row:last-child { border-bottom: none; }
+
+.pf-info-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+
+.pf-info-value {
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+@media (max-width: 720px) {
+  .pf-about-grid { grid-template-columns: 1fr; gap: 32px; }
+}
+
+/* ============================= SECTION HEADER ============================= */
+.pf-section-head { margin-bottom: 0; }
+
+.pf-section-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(32px, 5vw, 48px);
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+/* ============================= EXPERIENCE TIMELINE ============================= */
+.pf-timeline { position: relative; }
+
+.pf-timeline-item {
+  position: relative;
+  padding-left: 32px;
+  border-left: 1px solid var(--hairline);
+  padding-bottom: 40px;
+}
+
+.pf-timeline-item:last-child { padding-bottom: 0; }
+
+.pf-timeline-dot {
+  position: absolute;
+  left: -5px;
+  top: 6px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--accent);
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease;
+}
+
+.pf-timeline-item:hover .pf-timeline-dot {
+  transform: scale(1.6);
+  box-shadow: 0 0 0 4px var(--accent-soft);
+}
+
+.pf-role-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 22px;
+  margin: 0 0 4px;
+}
+
+.pf-role-company {
+  font-size: 16px;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+
+.pf-role-meta {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 18px;
+}
+
+.pf-bullet-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  margin: 18px 0 8px;
+}
+
+.pf-bullets { margin: 0; padding-left: 18px; }
+.pf-bullets li { font-size: 15px; line-height: 1.65; margin-bottom: 8px; color: var(--ink); }
+
+.pf-tech-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+
+.pf-tech-chip {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  padding: 5px 12px;
+  border: 1px solid var(--hairline);
+  border-radius: 999px;
+  color: var(--muted);
+}
+
+/* ============================= PROJECT CARDS (main listing) ============================= */
+.pf-project-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+
+@media (max-width: 860px) {
+  .pf-project-grid { grid-template-columns: 1fr; }
+}
+
+.pf-card {
+  border: 1px solid var(--hairline);
+  border-radius: 20px;
+  overflow: hidden;
+  background: var(--surface);
+  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.pf-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--ink);
+  box-shadow: 0 20px 48px rgba(17, 18, 20, 0.1), 0 0 0 1px var(--accent-soft), 0 0 32px rgba(47, 76, 255, 0.12);
+}
+
+.pf-card-image {
+  width: 100%;
+  aspect-ratio: 16/9;
+  background: #E8E7E1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  overflow: hidden;
+}
+
+.pf-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.pf-card:hover .pf-card-image img { transform: scale(1.05); }
+
+.pf-card-body { padding: 26px; display: flex; flex-direction: column; flex-grow: 1; }
+
+.pf-card-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 19px;
+  letter-spacing: -0.01em;
+  margin: 0 0 8px;
+}
+
+.pf-card-tagline {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.5;
+  margin-bottom: 16px;
+}
+
+.pf-card-metric {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--accent);
+  background: var(--accent-soft);
+  padding: 6px 12px;
+  border-radius: 8px;
+  display: inline-block;
+  margin-bottom: 16px;
+  width: fit-content;
+}
+
+.pf-card-tech-row { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 20px; }
+
+.pf-card-tech-chip {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  padding: 4px 10px;
+  border: 1px solid var(--hairline);
+  border-radius: 999px;
+  color: var(--muted);
+  background: var(--bg);
+}
+
+.pf-card-actions { display: flex; gap: 10px; margin-top: auto; }
+
+/* Compact academic-project cards -- denser, no hero image */
+.pf-academic-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+@media (max-width: 960px) {
+  .pf-academic-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 640px) {
+  .pf-academic-grid { grid-template-columns: 1fr; }
+}
+
+.pf-academic-card {
+  border: 1px solid var(--hairline);
+  border-radius: 16px;
+  padding: 22px;
+  transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.pf-academic-card:hover {
+  border-color: var(--ink);
+  transform: translateY(-5px);
+  box-shadow: 0 16px 32px rgba(17,18,20,0.08), 0 0 24px rgba(47, 76, 255, 0.1);
+}
+
+.pf-academic-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 15.5px;
+  line-height: 1.3;
+  margin-bottom: 8px;
+}
+
+.pf-academic-tagline { font-size: 13px; color: var(--muted); line-height: 1.5; margin-bottom: 14px; flex-grow: 1; }
+
+.pf-academic-tech { font-family: var(--font-mono); font-size: 11px; color: var(--muted); margin-bottom: 14px; }
+
+/* ============================= PROJECTS (detail-page full-bleed) ============================= */
+.pf-project {
+  padding: 88px 0;
+  border-bottom: 1px solid var(--hairline);
+}
+.pf-project:last-child { border-bottom: none; }
+
+.pf-project-num {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: var(--accent);
+  margin-bottom: 18px;
+}
+
+.pf-project-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(28px, 4vw, 42px);
+  letter-spacing: -0.02em;
+  margin: 0 0 14px;
+  max-width: 760px;
+}
+
+.pf-project-tagline {
+  font-size: 18px;
+  color: var(--muted);
+  max-width: 620px;
+  margin-bottom: 32px;
+  line-height: 1.5;
+}
+
+.pf-project-image {
+  width: 100%;
+  border-radius: 16px;
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  aspect-ratio: 16/8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  margin-bottom: 36px;
+  overflow: hidden;
+}
+.pf-project-image img { width: 100%; height: 100%; object-fit: cover; }
+
+.pf-project-desc {
+  font-size: 16px;
+  line-height: 1.7;
+  max-width: 680px;
+  margin-bottom: 28px;
+}
+
+/* Spec-sheet style stat rows -- the signature element */
+.pf-stat-sheet {
+  border-top: 1px solid var(--hairline);
+  border-bottom: 1px solid var(--hairline);
+  margin: 32px 0;
+}
+
+.pf-stat-row {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 24px;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--hairline);
+}
+.pf-stat-row:last-child { border-bottom: none; }
+
+.pf-stat-figure {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 15px;
+  color: var(--accent);
+}
+
+.pf-stat-desc {
+  font-size: 14px;
+  color: var(--ink);
+  line-height: 1.55;
+}
+
+@media (max-width: 720px) {
+  .pf-stat-row { grid-template-columns: 1fr; gap: 6px; }
+}
+
+.pf-project-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 28px; }
+
+/* ============================= EDUCATION ============================= */
+.pf-edu-item {
+  padding: 32px 0;
+  border-bottom: 1px solid var(--hairline);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+.pf-edu-item:last-child { border-bottom: none; }
+
+.pf-edu-institution {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 20px;
+  margin: 0 0 6px;
+}
+
+.pf-edu-degree { font-size: 15px; color: var(--muted); margin-bottom: 4px; }
+.pf-edu-meta { font-family: var(--font-mono); font-size: 12px; color: var(--muted); }
+
+.pf-edu-detail { font-size: 14px; font-weight: 600; margin-bottom: 10px; color: var(--accent); }
+
+.pf-coursework { font-size: 13px; color: var(--muted); line-height: 1.7; }
+
+@media (max-width: 720px) {
+  .pf-edu-item { grid-template-columns: 1fr; }
+}
+
+/* ============================= SKILLS ============================= */
+.pf-skill-row {
+  display: grid;
+  grid-template-columns: 100px 220px 1fr;
+  gap: 24px;
+  padding: 24px 16px;
+  margin: 0 -16px;
+  border-bottom: 1px solid var(--hairline);
+  align-items: baseline;
+  border-radius: 12px;
+  transition: background 0.2s ease;
+}
+.pf-skill-row:last-child { border-bottom: none; }
+.pf-skill-row:hover { background: var(--accent-soft); }
+
+.pf-skill-num { font-family: var(--font-mono); font-size: 13px; color: var(--muted); }
+
+.pf-skill-cat {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 17px;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+.pf-skill-row:hover .pf-skill-cat { transform: translateX(4px); color: var(--accent); }
+
+.pf-skill-items { font-size: 14px; color: var(--muted); line-height: 1.8; }
+
+@media (max-width: 720px) {
+  .pf-skill-row { grid-template-columns: 1fr; gap: 6px; }
+}
+
+/* ============================= CERTS / ACHIEVEMENTS ============================= */
+.pf-list-item {
+  padding: 16px 0;
+  margin-top: 0;
+  border-bottom: 1px solid var(--hairline);
+}
+.pf-list-item:last-child { border-bottom: none; }
+
+.pf-list-title { font-weight: 600; font-size: 16px; margin-bottom: 4px; }
+.pf-list-meta { font-family: var(--font-mono); font-size: 12px; color: var(--muted); margin-bottom: 8px; }
+.pf-list-detail { font-size: 14px; color: var(--ink); line-height: 1.6; }
+
+/* ============================= CONTACT ============================= */
+.pf-contact {
+  text-align: left;
+  padding: 140px 0 120px;
+}
+
+.pf-contact-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(36px, 6vw, 64px);
+  letter-spacing: -0.02em;
+  max-width: 700px;
+  margin-bottom: 40px;
+}
+
+.pf-contact-links { display: flex; flex-wrap: wrap; gap: 14px; }
+
+.pf-footer {
+  padding: 28px 0;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--muted);
+  display: flex;
+  justify-content: space-between;
+}
+
+@media (max-width: 720px) {
+  .pf-footer { flex-direction: column; gap: 8px; }
+}
+
+/* ============================= NATIVE STREAMLIT BUTTONS ============================= */
+/* st.download_button and st.button (used for "View" dialogs and downloads)
+   don't take our HTML classes, so they're restyled here to match .pf-btn
+   instead of Streamlit's gray defaults. */
+.stDownloadButton button,
+.stButton button,
+.stFormSubmitButton button {
+  font-family: var(--font-body) !important;
+  font-weight: 600 !important;
+  font-size: 14px !important;
+  padding: 12px 26px !important;
+  border-radius: 999px !important;
+  background: var(--ink) !important;
+  color: var(--bg) !important;
+  border: 1px solid var(--ink) !important;
+  transition: all 0.2s ease !important;
+}
+.stDownloadButton button:hover,
+.stButton button:hover,
+.stFormSubmitButton button:hover {
+  background: var(--accent) !important;
+  border-color: var(--accent) !important;
+  transform: translateY(-1px);
+}
+.stDownloadButton button:focus:not(:active),
+.stButton button:focus:not(:active),
+.stFormSubmitButton button:focus:not(:active) {
+  color: var(--bg) !important;
+}
+
+/* Secondary variant: outline instead of filled, for pairing next to a
+   primary button (e.g. "View" next to "Download"). Apply by wrapping the
+   button in a container with class pf-btn-secondary-slot. */
+.pf-btn-secondary-slot .stButton button,
+.pf-btn-secondary-slot .stDownloadButton button {
+  background: transparent !important;
+  color: var(--ink) !important;
+  border-color: var(--hairline) !important;
+}
+.pf-btn-secondary-slot .stButton button:hover,
+.pf-btn-secondary-slot .stDownloadButton button:hover {
+  border-color: var(--ink) !important;
+  background: transparent !important;
+  color: var(--ink) !important;
+}
+
+/* Sidebar buttons sit on a dark background -- invert to a light pill. */
+section[data-testid="stSidebar"] .stButton button {
+  background: var(--accent) !important;
+  color: var(--bg) !important;
+  border-color: var(--accent) !important;
+  width: 100%;
+}
+section[data-testid="stSidebar"] .stButton button:hover {
+  background: #4863ff !important;
+  border-color: #4863ff !important;
+  transform: translateY(-1px);
+}
+.pf-resume-cta {
+  background: var(--ink);
+  color: var(--bg);
+  border-radius: 24px;
+  padding: 48px 48px 48px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: -48px;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease;
+}
+
+.pf-resume-cta::before {
+  content: "";
+  position: absolute;
+  top: -60%;
+  left: 50%;
+  width: 480px;
+  height: 480px;
+  transform: translateX(-50%);
+  background: radial-gradient(circle, rgba(47, 76, 255, 0.35) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.pf-resume-cta:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 24px 56px rgba(17, 18, 20, 0.28);
+}
+
+.pf-resume-cta > * { position: relative; z-index: 1; }
+
+.pf-resume-cta h3 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 30px;
+  margin: 0 0 12px;
+}
+
+.pf-resume-cta p { color: rgba(250,250,249,0.7); margin-bottom: 28px; font-size: 15px; }
+
+.pf-resume-cta .pf-btn-primary { background: var(--bg); color: var(--ink); }
+.pf-resume-cta .pf-btn-secondary { border-color: rgba(250,250,249,0.3); color: var(--bg); }
