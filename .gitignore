@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+env/
+.streamlit/secrets.toml
+.env
+.env.*
+*.key
+*.pem
+frontend/static/
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.log
