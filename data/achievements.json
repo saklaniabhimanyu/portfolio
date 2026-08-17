@@ -1,0 +1,37 @@
+{
+  "certifications": [
+    {
+      "name": "Google Advanced Data Analytics Professional Certificate",
+      "issuer": "Google",
+      "year": "2025",
+      "detail": "Validated skills in data wrangling, statistical analysis, Python-based ML pipelines, and communicating data-driven insights.",
+      "link": "https://www.coursera.org/account/accomplishments/specialization/57KDVJCEKRHS"
+    },
+    {
+      "name": "Citizen Data Science using Python",
+      "issuer": "Infosys Springboard",
+      "year": "2025",
+      "detail": "Validated EDA, data visualization, regression analysis, time series analysis, association analysis, and ML fundamentals.",
+      "link": "https://drive.google.com/file/d/1g0k5r6J7X8F9G3H2L4K5J6L7M8N9O0P1/view?usp=sharing"
+    },
+    {
+      "name": "Python for Data Science — IIT Madras",
+      "issuer": "NPTEL",
+      "year": "2024",
+      "detail": "Validated Python-based data science workflows covering NumPy, Pandas, Matplotlib, and introductory ML techniques.",
+      "link": "https://archive.nptel.ac.in/content/noc/NOC24/SEM2/Ecertificates/106/noc24-cs68/Course/NPTEL24CS68S14620000502601108.pdf"
+    }
+  ],
+  "achievements": [
+    {
+      "title": "1st Prize, Sustainability Track — Vibe-a-thon",
+      "year": "2026",
+      "detail": "Contributed AI integration for \"Eco-Tracker,\" an AI-powered smart-city sustainability platform; built the AI-driven \"Smart Sort\" feature that classifies waste from photos to guide recycling."
+    },
+    {
+      "title": "2nd Place, CRYPTEC Coding Battle 2025",
+      "year": "2025",
+      "detail": "Department of Computer Science, NMIT."
+    }
+  ]
+}

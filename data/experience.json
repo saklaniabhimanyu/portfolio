@@ -1,0 +1,14 @@
+[
+  {
+    "company": "Commonwealth Bank of Australia",
+    "role": "Software Developer Trainee (Apprenticeship)",
+    "location": "Remote",
+    "dates": "July 2026 — Present",
+    "what_i_did": [
+      "Completing a structured software development apprenticeship under the National Apprenticeship Promotion Scheme.",
+      "Gaining hands-on exposure to enterprise software development practices and workflows."
+    ],
+    "impact": [],
+    "technologies": ["React JS", "Javascript", "Enterprise Software Development"]
+  }
+]

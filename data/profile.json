@@ -1,0 +1,25 @@
+{
+  "name": "Abhimanyu Saklani",
+  "title": "AI / ML Engineer & Data Scientist",
+  "location": "Bengaluru, Karnataka, India",
+  "email": "saklaniabhimanyu@gmail.com",
+  "phone": "+91 78075 36311",
+  "linkedin": "https://www.linkedin.com/in/abhimanyu-saklani",
+  "github": "https://github.com/saklaniabhimanyu?tab=repositories",
+  "leetcode": "https://leetcode.com/saklaniabhimanyu/",
+  "kaggle": "https://www.kaggle.com/abhimanyusaklani",
+  "availability": "Available for opportunities",
+  "target_roles": ["Data Science", "ML Engineering", "AI Engineering"],
+  "hero_summary": "I build machine learning systems that turn messy, real-world data into measurable outcomes — from cutting Spark job runtimes by up to 72% to predicting cardiovascular risk across 68,000 patient records.",
+  "about_narrative": [
+    "I'm a Computer Science undergraduate at NMIT Bengaluru, currently completing a Software Developer Trainee apprenticeship at Commonwealth Bank of Australia under the National Apprenticeship Promotion Scheme, where I'm getting hands-on exposure to enterprise software development practices.",
+    "My work sits at the intersection of machine learning and applied engineering: I like problems where a model's output has to survive contact with real infrastructure — job schedulers, clinical datasets, unstructured document corpora — not just a notebook. Recent projects have focused on ML-driven systems optimization, predictive healthcare analytics, and retrieval-augmented generation for document QA.",
+    "Coursework in AI & Machine Learning, Deep Learning, Data Mining, Big Data Technologies, and Database Management Systems backs the practical side, and I keep building outside the classroom — most recently placing 1st in the Sustainability Track at Vibe-a-thon and 2nd at NMIT's CRYPTEC Coding Battle 2025."
+  ],
+  "info_panel": {
+    "location": "Bengaluru, Karnataka, India",
+    "focus": "AI / ML Engineering, Data Science, NLP",
+    "current_role": "Software Developer Trainee (Apprenticeship) - Commonwealth Bank of Australia",
+    "education": "B.E. Computer Science & Engineering, NMIT Bengaluru (2023–2027)"
+  }
+}

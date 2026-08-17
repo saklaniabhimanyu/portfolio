@@ -1,0 +1,26 @@
+[
+  {
+    "institution": "Nitte Meenakshi Institute of Technology (NMIT)",
+    "degree": "B.E. in Computer Science & Engineering",
+    "location": "Bengaluru, Karnataka",
+    "dates": "2023 — 2027",
+    "detail": "CGPA: 9.24 / 10.0",
+    "coursework": []
+  },
+  {
+    "institution": "Jawahar Navodaya Vidyalaya, Mandi, HP",
+    "degree": "Higher Secondary (CBSE)",
+    "location": "Mandi, Himachal Pradesh",
+    "dates": "2022-2023",
+    "detail": "Percentage: 90.8%",
+    "coursework": []
+  },
+  {
+    "institution": "Jawahar Navodaya Vidyalaya, Mandi, HP",
+    "degree": "Secondary Education (CBSE)",
+    "location": "Mandi, Himachal Pradesh",
+    "dates": "2020-2021",
+    "detail": "Percentage: 94.8%",
+    "coursework": []
+  }
+]

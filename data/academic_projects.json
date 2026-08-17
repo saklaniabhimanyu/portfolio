@@ -1,0 +1,136 @@
+[
+ {
+    "id": "animal-detection-railway",
+    "title": "Animal Detection on Railway Tracks",
+    "tagline": "Real-time YOLOv11 vision system for railway track safety.",
+    "description": "A real-time object detection system using YOLOv11 to detect animals on railway tracks, with a focus on fast inference and reliable detection performance.",
+    "technologies": ["Python", "YOLOv11", "OpenCV", "NumPy", "Roboflow"],
+    "models": ["YOLOv11 Object Detection"],
+    "github": "",
+    "demo": "https://app.roboflow.com/realtime-wildlife-detection-and-alert-system-for-railway-tracks-animal-dataset/animal-detection-9dl1v/models/animal-detection-9dl1v/1",
+    "hero_image": "assets/projects/animal-detection-railway/hero.png",
+    "screenshots": ["assets/projects/animal-detection-railway/screenshot-1.png", "assets/projects/animal-detection-railway/screenshot-2.png", "assets/projects/animal-detection-railway/screenshot-3.png", "assets/projects/animal-detection-railway/screenshot-4.png"],
+    "case_study": "",
+    "problem": "Animals entering railway tracks can create serious safety risks, requiring fast and reliable object detection for timely identification.",
+    "solution": "Developed and deployed a YOLOv11-based real-time object detection system for identifying animals on railway tracks, optimized for fast inference and evaluated on an external validation set.",
+    "contribution": "Built the object detection pipeline, prepared and evaluated the model using Roboflow, and focused on balancing detection accuracy with real-time inference performance.",
+    "results": [
+        "Achieved 90.1% mAP@50 on the external validation set",
+        "Achieved 90.4% precision and 83.9% recall",
+        "Achieved an F1 score of 87.1%",
+        "Deployed YOLOv11 Object Detection (Fast) for real-time inference"
+    ]
+  },
+  {
+    "id": "employee-turnover-analytics",
+    "title": "Employee Turnover Analytics",
+    "tagline": "Predicting employee attrition and identifying high-risk employees with machine learning.",
+    "description": "An employee turnover prediction system combining exploratory analysis, clustering, class balancing, classification models, and probability-based employee risk segmentation.",
+    "technologies": ["Python", "Pandas", "NumPy", "Scikit-learn", "SMOTE", "Matplotlib", "Seaborn"],
+    "models": ["Logistic Regression", "Random Forest", "Gradient Boosting", "K-Means"],
+    "github": "https://github.com/saklaniabhimanyu/employee-turnover-analytics",
+    "demo": "",
+    "hero_image": "assets/projects/employee-turnover-analytics/hero.png",
+    "screenshots": ["assets/projects/employee-turnover-analytics/hero.png","assets/projects/employee-turnover-analytics/screenshot-1.png", "assets/projects/employee-turnover-analytics/screenshot-2.png", "assets/projects/employee-turnover-analytics/screenshot-3.png"],
+    "case_study": "",
+    "problem": "Employee attrition can be difficult to identify early, making it challenging for organizations to understand turnover patterns and prioritize retention efforts.",
+    "solution": "Built an end-to-end employee turnover analytics pipeline using exploratory analysis, K-Means clustering of employees who left, categorical feature encoding, SMOTE-based class balancing, and multiple classification models evaluated with ROC-AUC.",
+    "contribution": "Performed EDA and turnover pattern analysis, segmented departed employees using K-Means, engineered model-ready features, addressed class imbalance with SMOTE, trained and compared three classifiers, and developed probability-based employee risk zones with retention strategies.",
+    "results": [
+    "Random Forest achieved the highest ROC-AUC of 0.994655, outperforming Gradient Boosting at 0.985736 and Logistic Regression at 0.815429",
+    "Identified employee turnover patterns using satisfaction level, evaluation, project count, and workload indicators",
+    "Segmented employees into Safe, Low, Medium, and High turnover-risk zones using predicted probabilities",
+    "Converted model predictions into actionable retention strategies for employees at elevated risk of leaving"
+    ]
+  },
+  {
+    "id": "house-price-prediction",
+    "title": "House Price Prediction",
+    "tagline": "Advanced regression modeling for California house-price prediction.",
+    "description": "An end-to-end house price prediction system comparing linear, regularized, and ensemble regression models with preprocessing, cross-validation, and XGBoost hyperparameter optimization.",
+    "technologies": ["Python", "Pandas", "NumPy", "Scikit-learn", "XGBoost", "LightGBM", "CatBoost"],
+    "models": ["Linear Regression", "Ridge", "Lasso", "ElasticNet", "Random Forest", "Gradient Boosting", "XGBoost", "LightGBM", "CatBoost"],
+    "github": "https://github.com/saklaniabhimanyu/House-Prices-Advanced-Regression-Techniques",
+    "demo": "",
+    "hero_image": "assets/projects/house-price-prediction/hero.png",
+    "screenshots": ["assets/projects/house-price-prediction/screenshot-1.png", "assets/projects/house-price-prediction/screenshot-2.png", "assets/projects/house-price-prediction/screenshot-3.png", "assets/projects/house-price-prediction/hero.png"],
+    "case_study": "",
+    "problem": "House prices depend on many numerical and categorical property features, making accurate prediction challenging without robust preprocessing and model comparison.",
+    "solution": "Built a complete regression pipeline with missing-value imputation, numerical scaling, categorical encoding, 5-fold cross-validation, ensemble model comparison, and randomized hyperparameter optimization for XGBoost.",
+    "contribution": "Performed exploratory analysis and outlier investigation, designed the preprocessing pipeline, implemented and compared multiple regression models, evaluated cross-validated RMSE, and optimized XGBoost through randomized hyperparameter search.",
+    "results": [
+    "Compared nine regression approaches using 5-fold cross-validated RMSE",
+    "Evaluated linear, regularized, gradient boosting, and tree-based ensemble models within a consistent preprocessing pipeline",
+    "Performed randomized hyperparameter optimization across XGBoost tree depth, learning rate, estimators, subsampling, and regularization parameters",
+    "Analyzed fold-level performance to assess model stability and generalization"
+          ]
+  },
+  {
+    "id": "natural-disaster-impact",
+    "title": "Predicting Natural Disaster Impact in Himachal Pradesh",
+    "tagline": "Flood and landslide risk from multi-year weather data.",
+    "description": "ML models predicting flood and landslide risk using multi-year meteorological datasets, with accuracy improved through feature engineering, preprocessing, and hyperparameter tuning.",
+    "technologies": ["Python", "Pandas", "NumPy", "Scikit-learn", "Matplotlib"],
+    "models": ["Random Forest", "Gradient Boosting"],
+    "github": "",
+    "demo": "",
+    "hero_image": "assets/projects/natural-disaster-impact/hero.png",
+    "screenshots": ["assets/projects/natural-disaster-impact/screenshot-1.png", "assets/projects/natural-disaster-impact/screenshot-2.png", "assets/projects/natural-disaster-impact/screenshot-3.png","assets/projects/natural-disaster-impact/hero.png"],
+    "case_study": "",
+    "problem": "Flood and landslide risk in Himachal Pradesh needs to be anticipated from historical weather patterns rather than assessed after the fact.",
+    "solution": "Built Random Forest and Gradient Boosting models on multi-year meteorological datasets, improving accuracy through feature engineering, preprocessing, and hyperparameter tuning.",
+    "contribution": "Built the full modeling pipeline: preprocessing, feature engineering, model training, and hyperparameter tuning for both models.",
+    "results": [
+    "Analyzed 24,840 rainfall and temperature records across 12 districts of Himachal Pradesh",
+    "Engineered temporal features including previous-day rainfall, 7-day rolling rainfall, previous-day temperature, seasonal indicators, and temperature trends",
+    "Built a Rainfall Risk Classification model achieving 83.7% accuracy and 84.0% weighted F1-score",
+    "Developed a Rainfall-Temperature Risk Index (RTRI) to categorize conditions into Low, Moderate, and High risk levels",
+    "Created district-wise analysis to identify rainfall variability and temperature patterns for data-driven natural disaster risk assessment"
+    ]
+  },
+  {
+    "id": "regression-models-from-scratch",
+    "title": "Linear Regression Models From Scratch",
+    "tagline": "California house-price regression, plus core ML algorithms built from first principles.",
+    "description": "House price prediction using advanced linear regression (OLS with gradient descent variants), alongside Ridge, Lasso, and Polynomial regression implemented from scratch.",
+    "technologies": ["Python", "NumPy"],
+    "models": ["Linear Regression (OLS, Gradient Descent)", "Ridge", "Lasso", "Polynomial Regression"],
+    "github": "https://github.com/saklaniabhimanyu/linear-regression-from-scratch",
+    "demo": "",
+    "hero_image": "assets/projects/regression-models-from-scratch/hero.png",
+    "screenshots": ["assets/projects/regression-models-from-scratch/screenshot-1.png", "assets/projects/regression-models-from-scratch/screenshot-2.png", "assets/projects/regression-models-from-scratch/screenshot-3.png", "assets/projects/regression-models-from-scratch/screenshot-4.png"],
+    "case_study": "",
+    "problem": "",
+    "solution": "",
+    "contribution": "",
+    "results": [
+    "Implemented Linear Regression from first principles using NumPy, including both Ordinary Least Squares and Gradient Descent optimization",
+    "Built Ridge and Lasso regression with regularization to demonstrate practical control of model complexity and overfitting",
+    "Extended the regression pipeline with Polynomial Regression to model non-linear relationships in house-price data",
+    "Compared multiple regression approaches to understand the trade-offs between model flexibility, regularization, and optimization methods",
+    "Developed the core algorithms without relying on high-level machine learning libraries, strengthening understanding of the mathematical foundations behind regression models"
+    ]
+  },
+  {
+    "id": "library-management-system",
+    "title": "Library Management System",
+    "tagline": "Backend system for managing books, members, and library operations.",
+    "description": "A Python and MySQL backend system designed to manage core library operations including book records, member management, borrowing, returns, and database-driven library workflows.",
+    "technologies": ["Python", "MySQL"],
+    "models": [],
+    "github": "https://github.com/saklaniabhimanyu/library-management-system",
+    "demo": "",
+    "hero_image": "assets/projects/library-management-system/hero.png",
+    "screenshots": ["assets/projects/library-management-system/screenshot-1.png", "assets/projects/library-management-system/screenshot-2.png"],
+    "case_study": "",
+    "problem": "Managing books, members, and borrowing records manually can lead to inconsistent data and inefficient tracking of library operations.",
+    "solution": "Built a database-driven backend system using Python and MySQL to organize library records and automate core book and member management workflows.",
+    "contribution": "Designed the backend logic and MySQL database structure, implemented CRUD operations, and developed workflows for managing books, members, borrowing, and returns.",
+    "results": [
+    "Centralized library records in a structured MySQL database",
+    "Implemented core CRUD workflows for efficient book and member management",
+    "Automated borrowing and return record management through a Python backend",
+    "Built a maintainable foundation for extending the system with additional library operations"
+    ]
+  }
+]

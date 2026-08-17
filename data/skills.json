@@ -1,0 +1,27 @@
+[
+  {
+    "number": "01",
+    "category": "Languages",
+    "items": ["Python", "Java", "SQL"]
+  },
+  {
+    "number": "02",
+    "category": "AI & Generative AI",
+    "items": ["GPTs", "LLMs", "Prompt Engineering", "Retrieval-Augmented Generation (RAG)", "AI Agents", "LangChain"]
+  },
+  {
+    "number": "03",
+    "category": "ML & Data Science",
+    "items": ["NumPy", "Pandas", "Matplotlib", "Seaborn", "Scikit-learn", "Linear Regression", "Logistic Regression", "XGBoost", "PyTorch", "TensorFlow", "Feature Engineering", "Statistical Analysis", "NLP", "Hypothesis Testing", "Regression", "Classification", "Clustering", "PCA", "Tableau", "Power BI"]
+  },
+  {
+    "number": "04",
+    "category": "Backend",
+    "items": ["FastAPI", "REST APIs", "PostgreSQL", "MongoDB", "MySQL"]
+  },
+  {
+    "number": "05",
+    "category": "Tools",
+    "items": ["GitHub", "GitHub Actions", "Git", "Jupyter Notebook", "Google Colab", "VS Code"]
+  }
+]

@@ -1,0 +1,94 @@
+[
+  {
+    "id": "spark-optimization",
+    "number": "01",
+    "title": "AI-Based Spark Job Performance Optimization System",
+    "tagline": "Teaching Spark to configure itself — 72% faster, 0.976 R².",
+    "description": "An XGBoost-driven recommendation engine that learns from historical PySpark execution parameters and outputs optimized job configurations, reducing runtime and infrastructure cost for data engineering teams.",
+    "technologies": ["Python", "PySpark", "XGBoost", "Pandas"],
+    "github": "https://github.com/saklaniabhimanyu/Spark-job-Optimization",
+    "demo": "",
+    "hero_image": "assets/projects/spark-optimization/hero.png",
+    "screenshots": ["assets/projects/spark-optimization/screenshot-1.png", "assets/projects/spark-optimization/screenshot-2.png", "assets/projects/spark-optimization/screenshot-3.png", "assets/projects/spark-optimization/screenshot-4.png"],
+    "case_study": "",
+    "problem": "Data engineering teams tune Spark job configurations largely by hand, spending manual effort per job run while still leaving execution time and infrastructure spend on the table across enterprise-scale workloads.",
+    "solution": "I built an ML pipeline that learns from PySpark execution parameters and outputs optimized job configurations automatically, packaged as a configurable module callable from existing pipeline orchestration tools.",
+    "contribution": "Designed and built the full pipeline end to end: feature engineering from Spark execution logs, model training and hyperparameter tuning, validation methodology, and integration as a callable module.",
+    "results": [
+      "Cut Spark job execution time by 64–72%, measured across three enterprise-scale workload profiles",
+      "Achieved R² = 0.976 on job runtime forecasting, validated on a held-out production-mirroring test set",
+      "Reduced infrastructure cost exposure by cutting manual configuration effort per job run"
+    ]
+  },
+  {
+    "id": "document-intelligence",
+    "number": "02",
+    "title": "Document Intelligence System",
+    "tagline": "Question-answering over 400+ pages of unstructured documents.",
+    "description": "A retrieval-augmented generation (RAG) pipeline enabling question answering over large, unstructured document corpora, built with multi-stage chunking, embedding generation, and semantic retrieval.",
+    "technologies": ["Python", "LangChain", "Groq API", "VectorDB"],
+    "github": "https://github.com/saklaniabhimanyu/Document-Intelligence-rag",
+    "demo": "https://document-intelligence.streamlit.app/",
+    "hero_image": "assets/projects/document-intelligence/hero.png",
+    "screenshots": ["assets/projects/document-intelligence/screenshot-1.png", "assets/projects/document-intelligence/screenshot-2.png", "assets/projects/document-intelligence/screenshot-3.png", "assets/projects/document-intelligence/screenshot-4.png"],
+    "case_study": "",
+    "problem": "Real regulatory and technical documents run hundreds of pages, making it slow and error-prone to find answers manually across structured and unstructured sources.",
+    "solution": "I designed an ingestion, preprocessing, and retrieval pipeline with multi-stage chunking and semantic retrieval using LangChain and the Groq API, plus a reranking step to sharpen retrieval precision.",
+    "contribution": "Built the RAG pipeline end to end — chunking strategy, embedding generation, semantic retrieval, and the reranking optimization loop — and evaluated it with RAGAS metrics.",
+    "results": [
+      "Increased document QA response relevance by 18%, measured via RAGAS evaluation metrics",
+      "Enabled question answering over 400+ page unstructured document corpora, tested on real regulatory and technical documents",
+      "Improved retrieval precision through reranking, validated with automated scoring"
+    ]
+  },
+  {
+    "id": "cardio-prediction",
+    "number": "03",
+    "title": "Cardiovascular Disease Prediction",
+    "tagline": "68,000 patient records, one interpretable risk score.",
+    "description": "An end-to-end predictive analytics system for cardiovascular disease detection, built on supervised machine learning with clinically relevant feature engineering and SHAP-based interpretability.",
+    "technologies": ["Python", "Scikit-learn", "XGBoost", "CatBoost", "SHAP", "Pandas"],
+    "github": "https://github.com/saklaniabhimanyu/Cardiovascular-Disease-Prediction",
+    "demo": "https://smart-cvd-predictor.streamlit.app/",
+    "hero_image": "assets/projects/cardio-prediction/hero.png",
+    "screenshots": ["assets/projects/cardio-prediction/hero.png", "assets/projects/cardio-prediction/screenshot-2.png", "assets/projects/cardio-prediction/screenshot-3.png", "assets/projects/cardio-prediction/screenshot-4.png"],
+    "case_study": "",
+    "problem": "Cardiovascular disease risk needs to be predicted reliably from patient records, but clinical adoption also requires model decisions to be interpretable rather than a black box.",
+    "solution": "I built a supervised ML system trained on 68,000 cleaned patient records, with clinically relevant feature engineering, rigorous cross-validation, and SHAP explanations layered on top of the final classifiers.",
+    "contribution": "Owned the full pipeline: data preprocessing, feature engineering, feature selection, model evaluation, 10-fold cross-validation, and threshold tuning for the XGBoost and CatBoost classifiers.",
+    "results": [
+      "Trained and validated on 68,000 cleaned patient records with 10-fold cross-validation",
+      "Achieved 0.803 ROC-AUC, 83.0% Recall, and 74.2% F1-score after threshold tuning",
+      "Delivered interpretable, AI-driven predictions using SHAP"
+    ]
+  },
+  {
+    "id": "password-strength-analyzer",
+    "number": "04",
+    "title": "Password Strength Analyzer",
+    "tagline": "Hybrid machine learning system for intelligent password security assessment.",
+    "description": "A password security analyzer that combines a hybrid LSTM model, rule-based heuristics, breach detection, entropy-based crack-time estimation, and secure password generation to evaluate password strength.",
+    "technologies": ["Python","TensorFlow","Keras","Pandas","NumPy","Scikit-learn","HIBP API"],
+    "github": "https://github.com/saklaniabhimanyu/Password-Strength-Analyzer",
+    "demo": "https://password-strength-analyzer-v1.streamlit.app/",
+    "hero_image": "assets/projects/password-strength-analyzer/hero.png",
+    "screenshots": [
+      "assets/projects/password-strength-analyzer/screenshot-1.png",
+      "assets/projects/password-strength-analyzer/screenshot-2.png",
+      "assets/projects/password-strength-analyzer/screenshot-3.png",
+      "assets/projects/password-strength-analyzer/screenshot-4.png",
+      "assets/projects/password-strength-analyzer/hero.png",
+      "assets/projects/password-strength-analyzer/screenshot-5.png"
+    ],
+    "case_study": "",
+    "problem": "Traditional password strength checks rely mainly on fixed rules such as length and character diversity, which can miss common patterns, leaked credentials, and predictable password structures.",
+    "solution": "I built a hybrid password security system that combines character-level LSTM modeling with numerical password features, rule-based analysis, Have I Been Pwned breach detection using k-anonymity, and entropy-based crack-time estimation. The system fuses these signals into a single strength score with actionable feedback.",
+    "contribution": "Built the end-to-end password analysis pipeline, including feature engineering, sequential password encoding, hybrid LSTM architecture, rule-based scoring, HIBP k-anonymity integration, score fusion, crack-time estimation, and secure password generation.",
+    "results": [
+      "Combined ML-based pattern analysis with deterministic security rules and breach intelligence into a unified 0–100 password strength score",
+      "Evaluated passwords using character-level patterns and six numerical features including length, digits, uppercase, lowercase, and special-character counts",
+      "Implemented privacy-preserving HIBP breach checks using SHA-1 hash prefixes rather than transmitting the full password or hash",
+      "Added entropy-based brute-force crack-time estimation and actionable recommendations for improving weak passwords"
+    ]
+  }
+]
