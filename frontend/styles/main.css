@@ -783,7 +783,7 @@ div[data-testid="stForm"] .stFormSubmitButton button {
 
 /* ============================= SECTION HEADER ============================= */
 .pf-section-head { 
-  margin-top : 5px;  
+  margin-top : 10px;  
   margin-bottom: 0; 
 }
 
@@ -792,7 +792,7 @@ div[data-testid="stForm"] .stFormSubmitButton button {
   font-weight: 700;
   font-size: clamp(32px, 5vw, 48px);
   letter-spacing: -0.02em;
-  margin: 0;
+  margin: 4px;
 }
 
 /* ============================= EXPERIENCE TIMELINE ============================= */
