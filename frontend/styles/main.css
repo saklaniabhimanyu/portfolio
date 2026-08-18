@@ -782,7 +782,10 @@ div[data-testid="stForm"] .stFormSubmitButton button {
 }
 
 /* ============================= SECTION HEADER ============================= */
-.pf-section-head { margin-bottom: 0; }
+.pf-section-head { 
+  margin-top : 5px;  
+  margin-bottom: 0; 
+}
 
 .pf-section-title {
   font-family: var(--font-display);
