@@ -17,14 +17,14 @@ The portfolio is built with a heavily customized Streamlit frontend, a lightweig
 
 ### Home 
 
-![Portfolio Home](assets/screenshots/screenshot-1.png)
+![Portfolio Home](assets/screenshots/Screenshot-1.png)
 
 
 
-```markdown
-![About Section](assets/screenshots/screenshot-2.png)
-![Projects Section](assets/screenshots/screenshot-3.png)
-```
+
+![About Section](assets/screenshots/Screenshot-2.png)
+![miniManyu : AI Assistance](assets/screenshots/Screenshot-3.png)
+
 
 ---
 
